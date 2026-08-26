@@ -1,21 +1,10 @@
 /** Formats durations and timestamps for human-readable display. */
 
 function describeRelativeTime(
-	timestamp: number | string | Date,
+	timestamp: number,
 	style: "compact" | "verbose",
 ): string {
-	let rawMs: number;
-	if (timestamp instanceof Date) {
-		rawMs = timestamp.getTime();
-	} else if (typeof timestamp === "string") {
-		rawMs = new Date(timestamp).getTime();
-	} else if (typeof timestamp === "number") {
-		rawMs = timestamp;
-	} else {
-		return "just now";
-	}
-
-	if (!Number.isFinite(rawMs)) {
+	if (typeof timestamp !== "number" || !Number.isFinite(timestamp)) {
 		return "just now";
 	}
 
@@ -24,7 +13,7 @@ function describeRelativeTime(
 	// values outside the ±8.64e15 Date range (which still pass
 	// Number.isFinite but yield "Invalid Date" from toLocaleDateString or
 	// absurd multi-million-day relative strings).
-	const time = new Date(rawMs).getTime();
+	const time = new Date(timestamp).getTime();
 	if (!Number.isFinite(time)) {
 		return "just now";
 	}
@@ -111,13 +100,13 @@ function describeRelativeTime(
  * formatRelativeTime(Date.now() - 604800000) // => "Jan 15" (or similar)
  * ```
  */
-export function formatRelativeTime(timestamp: number | string | Date): string {
+export function formatRelativeTime(timestamp: number): string {
 	return describeRelativeTime(timestamp, "compact");
 }
 
 /**
  * Format a timestamp as a verbose relative string.
  */
-export function formatTimestamp(timestamp: number | string | Date): string {
+export function formatTimestamp(timestamp: number): string {
 	return describeRelativeTime(timestamp, "verbose");
 }
