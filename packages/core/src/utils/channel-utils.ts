@@ -17,41 +17,17 @@ export type NormalizedChatType = "direct" | "group" | "channel";
  * @returns Normalized chat type
  */
 export function normalizeChatType(raw?: string): NormalizedChatType {
-	if (typeof raw !== "string") {
-		return "direct";
-	}
-	const lower = raw.toLowerCase().trim();
+	const lower = raw?.toLowerCase().trim();
 	if (!lower) {
 		return "direct";
 	}
-	if (
-		lower === "direct" ||
-		lower === "dm" ||
-		lower === "private" ||
-		lower === "p2p" ||
-		lower === "1on1" ||
-		lower === "1:1"
-	) {
+	if (lower === "direct" || lower === "dm" || lower === "private") {
 		return "direct";
 	}
-	if (
-		lower === "group" ||
-		lower === "supergroup" ||
-		lower === "room" ||
-		lower === "group_dm"
-	) {
+	if (lower === "group" || lower === "supergroup" || lower === "room") {
 		return "group";
 	}
-	if (
-		lower === "channel" ||
-		lower === "feed" ||
-		lower === "broadcast" ||
-		lower === "thread" ||
-		lower === "forum" ||
-		lower === "topic" ||
-		lower === "guild_text" ||
-		lower === "guild_announcement"
-	) {
+	if (lower === "channel" || lower === "feed" || lower === "broadcast") {
 		return "channel";
 	}
 	return "direct";
